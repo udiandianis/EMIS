@@ -11,8 +11,20 @@ endif()
 
 project ("EMIS")
 
-# 将源代码添加到此项目的可执行文件。
-add_executable (EMIS "EMIS.cpp" "EMIS.h")
+# 将源文件添加到可执行文件
+add_executable(EMIS
+    src/main.cpp
+    src/manager_ctrl_impl.cpp
+    src/manager_mode_impl.cpp
+    src/manager_view_impl.cpp
+)
+
+# 包含头文件目录
+target_include_directories(EMIS PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+# 复制数据文件（data文件夹中的文件复制到构建目录）
+configure_file(data/managers.dat ${CMAKE_BINARY_DIR}/managers.dat COPYONLY)
+
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET EMIS PROPERTY CXX_STANDARD 20)
