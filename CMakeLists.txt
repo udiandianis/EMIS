@@ -22,7 +22,7 @@ add_executable(EMIS
 # 包含头文件目录
 target_include_directories(EMIS PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
-# 复制数据文件（data文件夹中的文件复制到构建目录）
+# 复制数据文件到构建输出目录（保证可以读写）
 configure_file(data/managers.dat ${CMAKE_BINARY_DIR}/managers.dat COPYONLY)
 
 
