@@ -1,32 +1,53 @@
+#include "core/emis.h"
+#include "manager/manager_ctrl_impl.h"
+#include "manager/manager_mode_impl.h"
+#include "service/service_ctrl_impl.h"
+#include "service/service_mode_impl.h"
 #include <iostream>
-#include <vector>
-#include "Manager.h"
-#include "manager_ctrl_impl.h"
-#include "manager_view_impl.h"
-#include "manager_mode_impl.h"
 
-int main()
-{
-    // 数据文件路径
-    std::string filename = "managers.dat";
+// 全局变量声明
+ManagerCtrlImpl managerCtrl; // 管理员控制器
+ServiceCtrlImpl serviceCtrl; // 服务控制器
 
-    // 创建控制器、视图、模式对象
-    ManagerCtrlImpl ctrl;
-    ManagerViewImpl view;
-    ManagerModeImpl mode;
+// 主菜单显示
+void displayMainMenu() {
+    std::cout << "\n=== 企业管理系统 ===\n";
+    std::cout << "1. 管理员管理\n";
+    std::cout << "2. 部门与员工管理\n";
+    std::cout << "3. 退出系统\n";
+    std::cout << "请输入操作编号: ";
+}
 
-    // 存放管理员
-    std::vector<Manager> managers;
+// 主程序入口
+int main() {
+    initializeSystem(); // 初始化系统，加载数据
 
-    // 启动时先加载文件中的管理员数据
-    ctrl.loadData(filename, managers);
+    while (true) {
+        displayMainMenu();
+        int choice;
+        std::cin >> choice;
+        switch (choice) {
+        case 1: {
+            ManagerModeImpl managerMode(&managerCtrl);
+            managerMode.displayMenu();
+            managerMode.handleInput();
+            break;
+        }
+        case 2: {
+            ServiceModeImpl serviceMode(&serviceCtrl);
+            serviceMode.displayMenu();
+            serviceMode.handleInput();
+            break;
+        }
+        case 3:
+            std::cout << "\n正在保存系统数据...\n";
+            saveData(); // 保存所有数据
+            std::cout << "系统数据保存成功，程序即将退出...\n";
+            return 0;
+        default:
+            std::cout << "无效操作，请重新输入。\n";
+        }
+    }
 
-    // 进入主循环
-    mode.run(ctrl, view, managers);
-
-    // 退出前保存到文件
-    ctrl.saveData(filename, managers);
-
-    std::cout << "程序已退出并保存数据到 " << filename << "。\n";
     return 0;
 }
