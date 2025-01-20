@@ -1,12 +1,6 @@
 ﻿# CMake 最低版本要求
 cmake_minimum_required(VERSION 3.8)
 
-# 如果支持，请为 MSVC 编译器启用热重载
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
-
 # 项目信息
 project("EMIS")
 
@@ -61,14 +55,11 @@ target_include_directories(EMIS PUBLIC
     ${PROJECT_SOURCE_DIR}/include/service # 服务模块头文件目录
 )
 
-# 将数据文件复制到运行时目录
+# 将数据文件复制到项目根目录的 data 文件夹中
 file(GLOB DATA_FILES ${PROJECT_SOURCE_DIR}/data/*)
-foreach(DATA_FILE ${DATA_FILES})
-    get_filename_component(FILENAME ${DATA_FILE} NAME)
-    configure_file(${DATA_FILE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${FILENAME} COPYONLY)
-    configure_file(${DATA_FILE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}/${FILENAME} COPYONLY)
-    configure_file(${DATA_FILE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}/${FILENAME} COPYONLY)
-endforeach()
+
+# 设置运行时工作目录为项目根目录
+set_property(TARGET EMIS PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 # 输出构建信息
 message(STATUS "Source directory: ${PROJECT_SOURCE_DIR}")

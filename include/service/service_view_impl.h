@@ -10,7 +10,6 @@ private:
 
 public:
     explicit ServiceViewImpl(ServiceCtrl* ctrl);
-
     void showDepartmentList() override;
     void showEmployeeList(int departmentId) override;
     void showAddDepartmentResult(bool success, const std::string& departmentName) override;

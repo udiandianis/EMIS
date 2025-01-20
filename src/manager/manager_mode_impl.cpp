@@ -2,7 +2,8 @@
 #include <iostream>
 #include <string>
 
-ManagerModeImpl::ManagerModeImpl(ManagerCtrl* ctrl) : controller(ctrl) {}
+ManagerModeImpl::ManagerModeImpl(ManagerCtrl* ctrl, ManagerView* view)
+    : controller(ctrl), viewer(view) {}
 
 void ManagerModeImpl::displayMenu() {
     std::cout << "\n=== 管理员管理系统 ===\n";
@@ -16,14 +17,15 @@ void ManagerModeImpl::displayMenu() {
 void ManagerModeImpl::handleInput() {
     int choice;
     std::cin >> choice;
+    std::cin.ignore(); // 清除缓冲区
 
     switch (choice) {
     case 1: {
         std::string username, password;
         std::cout << "请输入管理员用户名: ";
-        std::cin >> username;
+        std::getline(std::cin, username);
         std::cout << "请输入管理员密码: ";
-        std::cin >> password;
+        std::getline(std::cin, password);
         controller->addManager(username, password);
         break;
     }
@@ -35,15 +37,11 @@ void ManagerModeImpl::handleInput() {
         break;
     }
     case 3: {
-        auto managers = controller->listManagers();
-        std::cout << "\n=== 管理员列表 ===\n";
-        for (const auto& mgr : managers) {
-            std::cout << "ID: " << mgr.getId() << "，用户名: " << mgr.getUsername() << "\n";
-        }
+        viewer->showManagerList();
         break;
     }
     case 4:
-        std::cout << "返回主菜单\n";
+        std::cout << "正在返回主菜单。\n";
         break;
     default:
         std::cout << "无效操作\n";

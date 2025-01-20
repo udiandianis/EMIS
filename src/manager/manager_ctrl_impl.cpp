@@ -27,7 +27,7 @@ std::vector<Manager> ManagerCtrlImpl::listManagers() const {
     return managers;
 }
 
-void ManagerCtrlImpl::saveManagersToFile(const char* filename) const {
+void ManagerCtrlImpl::saveManagersToFile(const std::string& filename) const {
     std::ofstream file(filename);
     if (!file) {
         std::cerr << "无法打开文件保存管理员数据！\n";
@@ -40,10 +40,10 @@ void ManagerCtrlImpl::saveManagersToFile(const char* filename) const {
             << manager.getPassword() << "\n";
     }
     file.close();
-    std::cout << "管理员数据已保存。\n";
+    std::cout << "管理员数据已保存到文件 " << filename << " 。\n";
 }
 
-void ManagerCtrlImpl::loadManagersFromFile(const char* filename) {
+void ManagerCtrlImpl::loadManagersFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file) {
         std::cerr << "无法打开文件加载管理员数据！\n";
@@ -58,5 +58,5 @@ void ManagerCtrlImpl::loadManagersFromFile(const char* filename) {
         managers.emplace_back(id, username, password);
     }
     file.close();
-    std::cout << "已加载 " << managers.size() << " 个管理员。\n";
+    std::cout << "管理员数据已从 " << filename << " 加载。\n";
 }

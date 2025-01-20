@@ -6,7 +6,7 @@
 
 class ManagerViewImpl : public ManagerView {
 private:
-    ManagerCtrl* controller;  // 管理员控制器
+    ManagerCtrl* controller;
 
 public:
     explicit ManagerViewImpl(ManagerCtrl* ctrl);

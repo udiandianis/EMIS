@@ -53,7 +53,7 @@ std::vector<Employee> ServiceCtrlImpl::listEmployees(int departmentId) const {
     return result;
 }
 
-void ServiceCtrlImpl::saveServiceDataToFile(const char* filename) const {
+void ServiceCtrlImpl::saveServiceDataToFile(const std::string& filename) const {
     std::ofstream file(filename);
     if (!file.is_open()) {
         std::cerr << "错误: 无法写入文件 " << filename << "。\n";
@@ -75,7 +75,7 @@ void ServiceCtrlImpl::saveServiceDataToFile(const char* filename) const {
     std::cout << "部门和员工数据已保存到文件 " << filename << "。\n";
 }
 
-void ServiceCtrlImpl::loadServiceDataFromFile(const char* filename) {
+void ServiceCtrlImpl::loadServiceDataFromFile(const std::string& filename) {
     departments.clear();
     employees.clear();
 

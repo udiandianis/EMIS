@@ -3,13 +3,15 @@
 
 #include "service_mode.h"
 #include "service_ctrl.h"
+#include "service_view.h"
 
 class ServiceModeImpl : public ServiceMode {
 private:
     ServiceCtrl* controller;
+    ServiceView* viewer; // ÉùÃ÷ viewer ³ÉÔ±
 
 public:
-    explicit ServiceModeImpl(ServiceCtrl* ctrl);
+    ServiceModeImpl(ServiceCtrl* ctrl, ServiceView* view);
     void displayMenu() override;
     void handleInput() override;
 };

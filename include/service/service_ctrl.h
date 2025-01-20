@@ -15,8 +15,8 @@ public:
     virtual void deleteEmployee(int id) = 0;
     virtual std::vector<Employee> listEmployees(int departmentId) const = 0;
 
-    virtual void saveServiceDataToFile(const char* filename) const = 0;
-    virtual void loadServiceDataFromFile(const char* filename) = 0;
+    virtual void saveServiceDataToFile(const std::string& filename) const = 0;
+    virtual void loadServiceDataFromFile(const std::string& filename) = 0;
 
     virtual ~ServiceCtrl() = default;
 };

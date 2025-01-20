@@ -1,7 +1,9 @@
 #include "service_mode_impl.h"
+#include "service_view_impl.h"
 #include <iostream>
 
-ServiceModeImpl::ServiceModeImpl(ServiceCtrl* ctrl) : controller(ctrl) {}
+ServiceModeImpl::ServiceModeImpl(ServiceCtrl* ctrl, ServiceView* view)
+    : controller(ctrl), viewer(view) {}
 
 void ServiceModeImpl::displayMenu() {
     std::cout << "\n=== 企业服务管理系统 ===\n";
@@ -26,6 +28,7 @@ void ServiceModeImpl::handleInput() {
         std::cout << "请输入部门名称: ";
         std::getline(std::cin, deptName);
         controller->addDepartment(deptName);
+        viewer->showAddDepartmentResult(true, deptName); // 使用 viewer 显示结果
         break;
     }
     case 2: {
@@ -33,19 +36,11 @@ void ServiceModeImpl::handleInput() {
         std::cout << "请输入要删除的部门 ID: ";
         std::cin >> deptId;
         controller->deleteDepartment(deptId);
+        viewer->showDeleteDepartmentResult(true, deptId); // 使用 viewer 显示结果
         break;
     }
     case 3: {
-        auto departments = controller->listDepartments();
-        if (departments.empty()) {
-            std::cout << "当前没有任何部门。\n";
-        }
-        else {
-            std::cout << "部门列表:\n";
-            for (const auto& dept : departments) {
-                std::cout << "ID: " << dept.getId() << ", 名称: " << dept.getName() << "\n";
-            }
-        }
+        viewer->showDepartmentList();
         break;
     }
     case 4: {
@@ -61,6 +56,7 @@ void ServiceModeImpl::handleInput() {
         std::cout << "请输入员工所在部门 ID: ";
         std::cin >> deptId;
         controller->addEmployee(empName, gender, age, deptId);
+        viewer->showAddEmployeeResult(true, empName); // 使用 viewer 显示结果
         break;
     }
     case 5: {
@@ -68,29 +64,18 @@ void ServiceModeImpl::handleInput() {
         std::cout << "请输入要删除的员工 ID: ";
         std::cin >> empId;
         controller->deleteEmployee(empId);
+        viewer->showDeleteEmployeeResult(true, empId); // 使用 viewer 显示结果
         break;
     }
     case 6: {
         int deptId;
         std::cout << "请输入部门 ID: ";
         std::cin >> deptId;
-        auto employees = controller->listEmployees(deptId);
-        if (employees.empty()) {
-            std::cout << "该部门没有员工。\n";
-        }
-        else {
-            std::cout << "员工列表:\n";
-            for (const auto& emp : employees) {
-                std::cout << "ID: " << emp.getId()
-                    << ", 姓名: " << emp.getName()
-                    << ", 性别: " << emp.getGender()
-                    << ", 年龄: " << emp.getAge() << "\n";
-            }
-        }
+        viewer->showEmployeeList(deptId);
         break;
     }
     case 7:
-        std::cout << "返回主菜单。\n";
+        std::cout << "正在返回主菜单。\n";
         break;
     default:
         std::cout << "无效操作。\n";

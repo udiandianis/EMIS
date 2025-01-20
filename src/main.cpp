@@ -1,53 +1,55 @@
+#include <iostream>
 #include "core/emis.h"
 #include "manager/manager_ctrl_impl.h"
 #include "manager/manager_mode_impl.h"
+#include "manager/manager_view_impl.h"
 #include "service/service_ctrl_impl.h"
 #include "service/service_mode_impl.h"
-#include <iostream>
+#include "service/service_view_impl.h"
 
-// 全局变量声明
-ManagerCtrlImpl managerCtrl; // 管理员控制器
-ServiceCtrlImpl serviceCtrl; // 服务控制器
+// 全局控制器实例
+ManagerCtrlImpl managerCtrl;
+ServiceCtrlImpl serviceCtrl;
 
-// 主菜单显示
-void displayMainMenu() {
-    std::cout << "\n=== 企业管理系统 ===\n";
-    std::cout << "1. 管理员管理\n";
-    std::cout << "2. 部门与员工管理\n";
-    std::cout << "3. 退出系统\n";
-    std::cout << "请输入操作编号: ";
-}
-
-// 主程序入口
 int main() {
-    initializeSystem(); // 初始化系统，加载数据
+    // 初始化系统
+    initializeSystem();
 
-    while (true) {
-        displayMainMenu();
-        int choice;
+    // 创建视图和模式
+    ManagerViewImpl managerView(&managerCtrl);
+    ManagerModeImpl managerMode(&managerCtrl, &managerView);
+
+    ServiceViewImpl serviceView(&serviceCtrl);
+    ServiceModeImpl serviceMode(&serviceCtrl, &serviceView);
+
+    int choice;
+    do {
+        // 主菜单
+        std::cout << "\n=== 企业管理系统 ===\n";
+        std::cout << "1. 管理员管理\n";
+        std::cout << "2. 企业服务管理\n";
+        std::cout << "3. 退出系统\n";
+        std::cout << "请输入操作编号: ";
         std::cin >> choice;
+
         switch (choice) {
-        case 1: {
-            ManagerModeImpl managerMode(&managerCtrl);
+        case 1:
             managerMode.displayMenu();
             managerMode.handleInput();
             break;
-        }
-        case 2: {
-            ServiceModeImpl serviceMode(&serviceCtrl);
+        case 2:
             serviceMode.displayMenu();
             serviceMode.handleInput();
             break;
-        }
         case 3:
-            std::cout << "\n正在保存系统数据...\n";
-            saveData(); // 保存所有数据
-            std::cout << "系统数据保存成功，程序即将退出...\n";
-            return 0;
+            std::cout << "\n";
+            saveData();
+            std::cout << "已退出系统。\n";
+            break;
         default:
             std::cout << "无效操作，请重新输入。\n";
         }
-    }
+    } while (choice != 3);
 
     return 0;
 }

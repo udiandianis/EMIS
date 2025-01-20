@@ -18,8 +18,8 @@ public:
     void deleteEmployee(int id) override;
     std::vector<Employee> listEmployees(int departmentId) const override;
 
-    void saveServiceDataToFile(const char* filename) const override;
-    void loadServiceDataFromFile(const char* filename) override;
+    void saveServiceDataToFile(const std::string& filename) const override;
+    void loadServiceDataFromFile(const std::string& filename) override;
 };
 
 #endif // SERVICE_CTRL_IMPL_H

@@ -13,8 +13,8 @@ public:
     void addManager(const std::string& name, const std::string& password) override;
     void deleteManager(int id) override;
     std::vector<Manager> listManagers() const override;
-    void saveManagersToFile(const char* filename) const override;
-    void loadManagersFromFile(const char* filename) override;
+    void saveManagersToFile(const std::string& filename) const override;
+    void loadManagersFromFile(const std::string& filename) override;
 };
 
 #endif // MANAGER_CTRL_IMPL_H

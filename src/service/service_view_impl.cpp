@@ -9,9 +9,12 @@ void ServiceViewImpl::showDepartmentList() {
         std::cout << "当前没有任何部门。\n";
     }
     else {
-        std::cout << "=== 部门列表 ===\n";
+        std::cout << "\n=== 部门列表（含员工人数） ===\n";
         for (const auto& dept : departments) {
-            std::cout << "ID: " << dept.getId() << ", 名称: " << dept.getName() << "\n";
+            int employeeCount = controller->listEmployees(dept.getId()).size();
+            std::cout << "ID: " << dept.getId()
+                << ", 名称: " << dept.getName()
+                << ", 员工人数: " << employeeCount << "\n";
         }
     }
 }
@@ -22,7 +25,7 @@ void ServiceViewImpl::showEmployeeList(int departmentId) {
         std::cout << "该部门没有员工。\n";
     }
     else {
-        std::cout << "=== 部门 " << departmentId << " 的员工列表 ===\n";
+        std::cout << "\n=== 部门 " << departmentId << " 的员工列表 ===\n";
         for (const auto& emp : employees) {
             std::cout << "ID: " << emp.getId()
                 << ", 姓名: " << emp.getName()
