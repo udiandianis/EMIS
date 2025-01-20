@@ -9,7 +9,7 @@ void ServiceViewImpl::showDepartmentList() {
         std::cout << "当前没有任何部门。\n";
     }
     else {
-        std::cout << "\n=== 部门列表（含员工人数） ===\n";
+        std::cout << "\n=== 部门列表 ===\n";
         for (const auto& dept : departments) {
             int employeeCount = controller->listEmployees(dept.getId()).size();
             std::cout << "ID: " << dept.getId()

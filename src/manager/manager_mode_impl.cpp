@@ -16,34 +16,37 @@ void ManagerModeImpl::displayMenu() {
 
 void ManagerModeImpl::handleInput() {
     int choice;
-    std::cin >> choice;
-    std::cin.ignore(); // 清除缓冲区
 
-    switch (choice) {
-    case 1: {
-        std::string username, password;
-        std::cout << "请输入管理员用户名: ";
-        std::getline(std::cin, username);
-        std::cout << "请输入管理员密码: ";
-        std::getline(std::cin, password);
-        controller->addManager(username, password);
-        break;
-    }
-    case 2: {
-        int id;
-        std::cout << "请输入要删除的管理员 ID: ";
-        std::cin >> id;
-        controller->deleteManager(id);
-        break;
-    }
-    case 3: {
-        viewer->showManagerList();
-        break;
-    }
-    case 4:
-        std::cout << "正在返回主菜单。\n";
-        break;
-    default:
-        std::cout << "无效操作\n";
-    }
+    do {
+        std::cin >> choice;
+        std::cin.ignore(); // 清除缓冲区
+        switch (choice) {
+        case 1: {
+            std::string username, password;
+            std::cout << "请输入管理员用户名: ";
+            std::getline(std::cin, username);
+            std::cout << "请输入管理员密码: ";
+            std::getline(std::cin, password);
+            controller->addManager(username, password);
+            break;
+        }
+        case 2: {
+            int id;
+            std::cout << "请输入要删除的管理员 ID: ";
+            std::cin >> id;
+            controller->deleteManager(id);
+            break;
+        }
+        case 3: {
+            viewer->showManagerList();
+            break;
+        }
+        case 4:
+            std::cout << "正在返回主菜单。\n";
+            return;
+        default:
+            std::cout << "无效操作\n";
+        }
+        displayMenu();
+    } while(true);
 }
