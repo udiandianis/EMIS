@@ -1,15 +1,24 @@
 #include "department.h"
 
-Department::Department(int id, const std::string& name) : id(id), name(name) {}
+Department::Department(int id, const std::string& name, int empCount) : id_(id), name_(name), empCount_(empCount) {
+}
 
 int Department::getId() const {
-    return id;
+    return id_;
 }
 
-std::string Department::getName() const {
-    return name;
+const std::string& Department::getName() const {
+    return name_;
 }
 
-void Department::setName(const std::string& newName) {
-    name = newName;
+int Department::getEmpCount() const {
+    return empCount_;
+}
+
+void Department::setName(const std::string& name) {
+    name_ = name;
+}
+
+void Department::setEmpCount(int count) {
+    empCount_ = count;
 }

@@ -1,50 +1,40 @@
-#include "models/employee.h"
+#include "employee.h"
 
-// 构造函数，初始化员工信息
-Employee::Employee(int id, const std::string& name, char gender, int age, int departmentId)
-    : id(id), name(name), gender(gender), age(age), departmentId(departmentId) {}
+Employee::Employee(int id, const std::string& name, bool isMale, int age, int deptId) : id_(id), name_(name), isMale_(isMale), age_(age), deptId_(deptId) {
+}
 
-// 获取员工ID
 int Employee::getId() const {
-    return id;
+    return id_;
 }
 
-// 获取员工名称
-std::string Employee::getName() const {
-    return name;
+const std::string& Employee::getName() const {
+    return name_;
 }
 
-// 获取员工性别
-char Employee::getGender() const {
-    return gender;
+bool Employee::isMale() const {
+    return isMale_;
 }
 
-// 获取员工年龄
 int Employee::getAge() const {
-    return age;
+    return age_;
 }
 
-// 获取所属部门ID
-int Employee::getDepartmentId() const {
-    return departmentId;
+int Employee::getDeptId() const {
+    return deptId_;
 }
 
-// 设置员工名称
-void Employee::setName(const std::string& newName) {
-    name = newName;
+void Employee::setName(const std::string& name) {
+    name_ = name;
 }
 
-// 设置员工性别
-void Employee::setGender(char newGender) {
-    gender = newGender;
+void Employee::setIsMale(bool isMale) {
+    isMale_ = isMale;
 }
 
-// 设置员工年龄
-void Employee::setAge(int newAge) {
-    age = newAge;
+void Employee::setAge(int age) {
+    age_ = age;
 }
 
-// 设置所属部门ID
-void Employee::setDepartmentId(int newDepartmentId) {
-    departmentId = newDepartmentId;
+void Employee::setDeptId(int deptId) {
+    deptId_ = deptId;
 }

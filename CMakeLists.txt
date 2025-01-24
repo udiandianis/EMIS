@@ -1,67 +1,54 @@
-﻿# CMake 最低版本要求
-cmake_minimum_required(VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.15)
+project(emis LANGUAGES CXX)
 
-# 项目信息
-project("EMIS")
+# 设置C++标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 设置 C++ 标准
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# 包含目录
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
-# 设置输出目录
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin/Debug)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin/Release)
-
-# 源文件分组
-set(CORE_SRC
-    src/core/emis.cpp
-    src/core/tools.cpp
+# 工具模块
+add_library(tools
+    tools/tools.cpp
 )
 
-set(MODEL_SRC
-    src/models/manager.cpp
+# 模型模块
+add_library(models
     src/models/department.cpp
     src/models/employee.cpp
+    src/models/manager.cpp
+    src/models/emis.cpp
 )
 
-set(MANAGER_SRC
+# 管理子系统
+add_library(manager
     src/manager/manager_ctrl_impl.cpp
     src/manager/manager_mode_impl.cpp
     src/manager/manager_view_impl.cpp
 )
 
-set(SERVICE_SRC
+# 业务子系统
+add_library(service
     src/service/service_ctrl_impl.cpp
     src/service/service_mode_impl.cpp
     src/service/service_view_impl.cpp
 )
 
-# 添加可执行文件
-add_executable(EMIS
+# 主程序
+add_executable(emis_main
     src/main.cpp
-    ${CORE_SRC}
-    ${MODEL_SRC}
-    ${MANAGER_SRC}
-    ${SERVICE_SRC}
 )
 
-# 设置包含头文件目录
-target_include_directories(EMIS PUBLIC
-    ${PROJECT_SOURCE_DIR}/include        # 根 include 目录
-    ${PROJECT_SOURCE_DIR}/include/core  # 核心头文件目录
-    ${PROJECT_SOURCE_DIR}/include/models # 模型头文件目录
-    ${PROJECT_SOURCE_DIR}/include/manager # 管理模块头文件目录
-    ${PROJECT_SOURCE_DIR}/include/service # 服务模块头文件目录
+# 链接依赖
+target_link_libraries(emis_main
+    PRIVATE
+    tools
+    models
+    manager
+    service
 )
 
-# 将数据文件复制到项目根目录的 data 文件夹中
-file(GLOB DATA_FILES ${PROJECT_SOURCE_DIR}/data/*)
-
-# 设置运行时工作目录为项目根目录
-set_property(TARGET EMIS PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-
-# 输出构建信息
-message(STATUS "Source directory: ${PROJECT_SOURCE_DIR}")
-message(STATUS "Binary directory: ${CMAKE_BINARY_DIR}")
-message(STATUS "Runtime directory: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+# 安装目标（可选）
+install(TARGETS emis_main DESTINATION bin)
+install(DIRECTORY include/ DESTINATION include)

@@ -1,16 +1,24 @@
 #include "manager.h"
 
-Manager::Manager(int id, const std::string& username, const std::string& password)
-    : id(id), username(username), password(password) {}
+Manager::Manager(int id, const std::string& name, const std::string& password) : id_(id), name_(name), password_(password) {
+}
 
 int Manager::getId() const {
-    return id;
+    return id_;
 }
 
-std::string Manager::getUsername() const {
-    return username;
+const std::string& Manager::getName() const {
+    return name_;
 }
 
-std::string Manager::getPassword() const {
-    return password;
+const std::string& Manager::getPassword() const {
+    return password_;
+}
+
+void Manager::setName(const std::string& name) {
+    name_ = name;
+}
+
+void Manager::setPassword(const std::string& password) {
+    password_ = password;
 }
